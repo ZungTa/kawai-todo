@@ -8,6 +8,7 @@ import {
   Dimensions,
   Platform,
   ScrollView,
+  AsyncStorage,
 } from 'react-native';
 import { AppLoading } from 'expo';
 import uuidv1 from 'uuid/v1';
@@ -32,9 +33,14 @@ export default class App extends Component {
     });
   };
 
-  loadToDos = () => {
+  loadToDos = async () => {
+    const jsonToDos = await AsyncStorage.getItem('toDos');
+    console.log('json? ', jsonToDos);
+    const toDos = JSON.parse(jsonToDos);
+
     this.setState({
       loadedToDos: true,
+      toDos,
     });
   };
 
@@ -60,7 +66,7 @@ export default class App extends Component {
           ...newToDoObject,
         },
       };
-
+      this.saveToDos();
       return { ...newState };
     });
   };
@@ -73,6 +79,7 @@ export default class App extends Component {
         ...prevState,
         ...toDos,
       };
+      this.saveToDos();
       return { ...newState };
     });
   };
@@ -89,6 +96,7 @@ export default class App extends Component {
           },
         },
       };
+      this.saveToDos();
       return { ...newState };
     });
   };
@@ -105,8 +113,13 @@ export default class App extends Component {
           },
         },
       };
+      this.saveToDos();
       return { ...newState };
     });
+  };
+
+  saveToDos = (newToDos) => {
+    AsyncStorage.setItem('toDos', JSON.stringify(newToDos));
   };
 
   render() {
