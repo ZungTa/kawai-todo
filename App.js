@@ -64,7 +64,7 @@ export default class App extends Component {
           ...newToDoObject,
         },
       };
-      this.saveToDos();
+      this.saveToDos(newState.toDos);
       return { ...newState };
     });
   };
@@ -77,7 +77,7 @@ export default class App extends Component {
         ...prevState,
         ...toDos,
       };
-      this.saveToDos();
+      this.saveToDos(newState.toDos);
       return { ...newState };
     });
   };
@@ -94,7 +94,7 @@ export default class App extends Component {
           },
         },
       };
-      this.saveToDos();
+      this.saveToDos(newState.toDos);
       return { ...newState };
     });
   };
@@ -111,7 +111,8 @@ export default class App extends Component {
           },
         },
       };
-      this.saveToDos();
+
+      this.saveToDos(newState.toDos);
       return { ...newState };
     });
   };
@@ -125,7 +126,6 @@ export default class App extends Component {
     if (!loadedToDos) {
       return <AppLoading />;
     }
-
     return (
       <View style={styles.container}>
         <StatusBar barStyle='light-content' />
@@ -143,19 +143,21 @@ export default class App extends Component {
           />
           <ScrollView contentContainerStyle={styles.toDos}>
             {/* <ToDo text={"Hello I'm a To Do"} /> */}
-            {Object.values(toDos).map((toDo) => {
-              console.log('todo??', toDo);
-
-              return (
-                <ToDo
-                  key={toDo.id}
-                  deleteToDo={this.deleteToDo}
-                  completeToDo={this.completeToDo}
-                  unCompleteToDo={this.unCompleteToDo}
-                  {...toDo}
-                />
-              );
-            })}
+            {Object.values(toDos)
+              .sort((a, b) => {
+                return b.createdAt - a.createdAt;
+              })
+              .map((toDo) => {
+                return (
+                  <ToDo
+                    key={toDo.id}
+                    deleteToDo={this.deleteToDo}
+                    completeToDo={this.completeToDo}
+                    unCompleteToDo={this.unCompleteToDo}
+                    {...toDo}
+                  />
+                );
+              })}
           </ScrollView>
         </View>
       </View>
