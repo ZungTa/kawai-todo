@@ -35,9 +35,7 @@ export default class App extends Component {
 
   loadToDos = async () => {
     const jsonToDos = await AsyncStorage.getItem('toDos');
-    console.log('json? ', jsonToDos);
     const toDos = JSON.parse(jsonToDos);
-
     this.setState({
       loadedToDos: true,
       toDos,
@@ -124,9 +122,6 @@ export default class App extends Component {
 
   render() {
     const { newToDo, loadedToDos, toDos } = this.state;
-
-    console.log(toDos);
-
     if (!loadedToDos) {
       return <AppLoading />;
     }

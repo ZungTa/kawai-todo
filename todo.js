@@ -53,8 +53,6 @@ class ToDo extends Component {
     const { isEditing, toDoValue } = this.state;
     const { id, text, isCompleted } = this.props;
     const { deleteToDo } = this.props;
-    console.log('todo.js props? ', this.props);
-    console.log('todo.js isCompleted? ', isCompleted);
     return (
       <View style={styles.container}>
         <View style={styles.column}>
